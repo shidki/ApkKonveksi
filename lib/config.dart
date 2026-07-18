@@ -12,13 +12,21 @@ import 'package:flutter/services.dart';
 class Config {
   // ── ALAMAT BACKEND ──────────────────────────────────────────────
   // GANTI sesuai tempat backend jalan:
-  //   • Emulator Android  → http://10.0.2.2:8000   (10.0.2.2 = localhost laptop)
-  //   • HP fisik (1 wifi) → http://<IP-LAPTOP>:8000 (mis. http://192.168.1.10:8000)
-  //   • Server online     → https://domain-kamu.com
+  //   • Server online (PRODUKSI) → https://api.myandromeda.store   ← AKTIF
+  //   • LOCAL DEV (HP fisik) → http://192.168.1.9:8000
+  //   • Emulator Android (dev)   → http://10.0.2.2:8000   (10.0.2.2 = localhost laptop)
+  //   • HP fisik dev (1 wifi)    → http://<IP-LAPTOP>:8000 (mis. http://192.168.1.10:8000)
   //
   // Cara lihat IP laptop: `ipconfig getifaddr en0` (Mac) / `ipconfig` (Windows).
-  // HP fisik → pakai IP laptop di WiFi yang sama. (Emulator: ganti ke http://10.0.2.2:8000)
-  static const String baseHost = 'http://10.101.10.0:8000';
+  //
+  // ⚠️ LOCAL DEV (aktif sekarang) — HP iOS FISIK colok, 1 wifi sama laptop:
+  //    pakai IP LAN laptop. IP sekarang: 192.168.1.9 (cek ulang: `ipconfig getifaddr en0`).
+  //    ⚠️ IP LAN suka BERUBAH tiap ganti wifi/restart — kalau login muter-muter,
+  //       jalanin `ipconfig getifaddr en0`, samain angkanya di bawah, build ulang.
+  //    • iOS Simulator     → http://localhost:8000
+  //    • Emulator Android  → http://10.0.2.2:8000
+  //    • Produksi          → https://api.myandromeda.store
+  static const String baseHost = 'https://api.myandromeda.store';
 
   static const String apiBase = '$baseHost/api';
   static const String authBase = '$apiBase/auth';
@@ -27,6 +35,13 @@ class Config {
   // Permission yang wajib dimiliki akun buat bisa login di sini
   // (harus sama dengan APK_PERM di backend routes_auth.py).
   static const String requiredPerm = 'product_management';
+
+  // ── AUTO-UPDATE (di luar Play Store) ────────────────────────────
+  // App cek file JSON ini di cPanel tiap masuk beranda. Kalau field "build"
+  // di JSON > build terpasang → muncul dialog update (download .apk + install).
+  // Upload update.json & file .apk ke path ini di cPanel.
+  static const String updateManifestUrl =
+      'https://myandromeda.store/apkstock/update.json';
 }
 
 /// Palet & tema aplikasi — desain modern, lembut, konsisten.

@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'api.dart';
 import 'models.dart';
+import 'services/alarm_notif.dart';
 
 class AuthProvider extends ChangeNotifier {
   static const _kToken = 'auth_token';
@@ -41,10 +42,12 @@ class AuthProvider extends ChangeNotifier {
     api.setToken(_token);
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(_kToken, _token!);
+    try { await NotifAlarm.start(); } catch (_) {} // mulai pantau notif alarm di background
     notifyListeners();
   }
 
   Future<void> logout() async {
+    try { await NotifAlarm.stop(); } catch (_) {} // matiin service sebelum token dihapus
     await api.logout();
     await _clear();
     notifyListeners();

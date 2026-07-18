@@ -115,7 +115,7 @@ class SectionHeader extends StatelessWidget {
             child: Text(title,
                 style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: AppTheme.ink)),
           ),
-          if (trailing != null) trailing!,
+          ?trailing,
         ],
       ),
     );
@@ -381,7 +381,7 @@ class ModernHeader extends StatelessWidget {
             ],
           ]),
         ),
-        if (trailing != null) trailing!,
+        ?trailing,
       ]),
     );
   }
